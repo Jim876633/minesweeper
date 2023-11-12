@@ -1,14 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./counter";
-import { pokemonApi } from "@/servers/pokemon";
+import minesweeperSlice from "./minesweeper";
 
 export const store = configureStore({
   reducer: {
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
-    counter: counterSlice.reducer,
+    minesweeper: minesweeperSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
