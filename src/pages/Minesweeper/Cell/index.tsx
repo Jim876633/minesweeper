@@ -25,7 +25,7 @@ const Cell = ({ cellInfo }: PropsType) => {
       }`}
       onClick={clickCellHandler}
     >
-      {cellInfo.isMine && "🐞"}
+      {cellInfo.isMine && cellInfo.isTrigger && "🐞"}
       {cellInfo.aroundMinesCount > 0 && cellInfo.aroundMinesCount}
     </div>
   );
