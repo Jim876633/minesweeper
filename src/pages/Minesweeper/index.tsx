@@ -1,20 +1,66 @@
-import useAppSelector from "@/utils/hooks/useAppSelect";
-import styled from "./index.module.scss";
-import Cell from "./Cell";
-import { resetGame } from "@/store/minesweeper";
+import { gameLevel } from "@/constants";
+import { GAMELEVEL } from "@/enums";
+import { changeFieldSize, resetGame } from "@/store/minesweeper";
+import { openModal } from "@/store/modal";
 import useAppDispatch from "@/utils/hooks/useAppDispatch";
+import useAppSelector from "@/utils/hooks/useAppSelect";
+import { useEffect } from "react";
+import Cell from "./Cell";
+import styled from "./index.module.scss";
 
 const Minesweeper = () => {
-  const { cells } = useAppSelector((state) => state.minesweeper);
+  const { cells, mineCount, field, isGameOver, isGameWin } = useAppSelector(
+    (state) => state.minesweeper
+  );
   const dispatch = useAppDispatch();
+
+  const changeLevelHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const level = (e.target as HTMLElement).innerText;
+    dispatch(changeFieldSize(level as keyof typeof gameLevel));
+  };
 
   const resetHandler = () => {
     console.log("reset");
     dispatch(resetGame());
   };
 
+  useEffect(() => {
+    if (isGameOver || isGameWin) {
+      dispatch(openModal());
+    }
+  }, [isGameOver, isGameWin, dispatch]);
+
   return (
-    <div>
+    <div className={styled.mineSweeper}>
+      <h1>
+        <span>minesweeper</span>
+      </h1>
+      <div className={styled.block}>
+        <div className={styled.levelBtn}>
+          <button type="button" onClick={changeLevelHandler}>
+            {GAMELEVEL.EASY}
+          </button>
+          <button type="button" onClick={changeLevelHandler}>
+            {GAMELEVEL.MEDIUM}
+          </button>
+          <button type="button" onClick={changeLevelHandler}>
+            {GAMELEVEL.HARD}
+          </button>
+        </div>
+      </div>
+      <div className={styled.info}>
+        <span>mines: {mineCount}</span>
+        <span>
+          field: {field.fieldRows} X {field.fieldCols}
+        </span>
+        <button
+          type="button"
+          className={styled.resetBtn}
+          onClick={resetHandler}
+        >
+          reset
+        </button>
+      </div>
       {cells.map((row, rowIndex) => (
         <div key={rowIndex} className={styled.row}>
           {row.map((cellInfo, colIndex) => (
@@ -22,7 +68,6 @@ const Minesweeper = () => {
           ))}
         </div>
       ))}
-      <button onClick={resetHandler}>reset</button>
     </div>
   );
 };

@@ -133,10 +133,15 @@ const triggerCellRecursively = (
   }
 };
 
+const isAllCellTriggered = (cells: CellType[][]): boolean => {
+  return cells.flat().every((cell) => cell.isMine || cell.isTrigger);
+};
+
 export {
   getCells,
   setMineCells,
   getAroundCells,
   triggerCellRecursively,
   getMineCells,
+  isAllCellTriggered,
 };

@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   getCells,
   getMineCells,
+  isAllCellTriggered,
   triggerCellRecursively,
 } from "./helpers/cellsHelper.ts";
 import { CellPositionType } from "./models/cell.ts";
@@ -22,6 +23,7 @@ const initialState = {
   field: defaultField,
   mineCount: defaultLevel.mines,
   isGameOver: false,
+  isGameWin: false,
 };
 
 export type InitialStateType = typeof initialState;
@@ -44,6 +46,7 @@ export const minesweeperSlice = createSlice({
     triggerCell: (state, action: PayloadAction<CellPositionType>) => {
       if (state.isGameOver) return;
       triggerCellRecursively(state, action.payload);
+      isAllCellTriggered(state.cells) && (state.isGameWin = true);
     },
     triggerMineCell: (state) => {
       const mineCells = getMineCells(state.cells);
@@ -55,6 +58,7 @@ export const minesweeperSlice = createSlice({
     resetGame: (state) => {
       state.cells = getCells(state.field, state.mineCount);
       state.isGameOver = false;
+      state.isGameWin = false;
     },
   },
 });

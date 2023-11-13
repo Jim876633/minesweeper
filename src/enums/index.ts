@@ -6,3 +6,11 @@ export enum GAMELEVEL {
   MEDIUM = "medium",
   HARD = "hard",
 }
+
+/**
+ * @description: game state enum
+ */
+export enum GAMESTATE {
+  WIN = "WIN",
+  LOSE = "LOSE",
+}

@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import minesweeperSlice from "./minesweeper";
+import { modalSlice } from "./modal";
 
 export const store = configureStore({
   reducer: {
     minesweeper: minesweeperSlice.reducer,
+    modal: modalSlice.reducer,
   },
 });
 
