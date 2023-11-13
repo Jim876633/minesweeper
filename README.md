@@ -1,89 +1,86 @@
-# Vite React template
+# Minesweeper Game 💣
 
-This template use the Vite + Typescript + swc for Basic React project.
+This project is a Minesweeper game implemented using Vite + React.
 
-## Dependencies
+💻 [Live Demo](https://jim876633.github.io/minesweeper/)
 
-- [react](https://reactjs.org/)(18.2.0)
-- [react-dom](https://reactjs.org/docs/react-dom.html)(18.2.0)
-- [react-router-dom](https://reactrouter.com/web/guides/quick-start)(6.15.0)
-- [react-redux](https://react-redux.js.org/)(8.1.2)
-- [@reduxjs/toolkit](https://redux-toolkit.js.org/)(1.9.5)
+## Technologies Used
 
-## Dev Dependencies
+- Vite
+- React
+- Redux Toolkit
+- TypeScript
+- CSS Modules
 
-### build
+## Getting Started
 
-- [vite](https://vitejs.dev/)(4.4.5)
-- [typescript](https://www.typescriptlang.org/)(5.0.2)
-
-### style
-
-- [sass](https://sass-lang.com/)(1.66.1)
-
-### format
-
-- [husky](https://typicode.github.io/husky/#/)(8.0.3)
-- [lint-staged](https://github.com/okonet/lint-staged)(14.0.1)
-- [eslint](https://eslint.org/)(8.45.0)
-- [prettier](https://prettier.io/)(3.0.2)
-- [stylelint](https://stylelint.io/)(15.10.3)
-
-### conventional commit
-
-- [@commitlint/cli](https://commitlint.js.org/#/)(17.7.1)
-- [commitizen](https://commitizen-tools.github.io/commitizen/)(4.3.0)
-- [cz-customizable](https://www.npmjs.com/package/cz-customizable)(7.0.0)
-
-### test
-
-- [vitest](https://vitest.dev/)
-- [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)(14.0.0)
-- [@testing-library/jest-dom](https://testing-library.com/docs/ecosystem-jest-dom/)(6.1.2)
-- [@testing-library/user-event](https://testing-library.com/docs/ecosystem-user-event/)(14.4.3)
-
-## Usage
-
-### Install
+1. Clone the repository:
 
 ```bash
+git clone https://github.com/Jim876633/minesweeper.git
+```
+
+2. install dependencies:
+
+```bash
+cd minesweeper
 npm install
 ```
 
-### Start
+3. Run the application:
 
 ```bash
 npm run dev
 ```
 
-### Build
+The app will be available at http://localhost:5173/ by default.
 
-```bash
-npm run build
-```
+## How to Play
 
-### Test
+1. **Reveal Cells:**
 
-```bash
-npm run test
-```
+   - Click on a cell to reveal its content.
+   - The number on a revealed cell indicates how many mines are adjacent to that cell.
+   - If you reveal a cell with a mine, the game ends.
 
-### commit
+2. **Winning the Game:**
 
-use commitizen to commit
+   - Successfully reveal all cells that do not contain mines to win the game.
+   - Use the number clues to strategically deduce the locations of mines.
 
-```bash
-npm run commit
-```
+3. **Losing the Game:**
 
-### Deploy
+   - The game ends if you reveal a cell with a mine.
+   - Be cautious and use logical deduction to avoid hitting mines.
 
-If use **github-page** to deploy just push the code to github and enable github-page use **GitHub Actions** in setting.
+4. **Changing Game Level:**
+   - The Minesweeper game offers different difficulty levels:
+     - **Easy:** 9x9 grid with 10 mines.
+     - **Medium:** 16x16 grid with 40 mines.
+     - **Hard:** 30x16 grid with 99 mines.
+   - Adjust the game level according to your preference before starting a new game.
 
-![Github Action](/public/github-action.png)
+<!-- 5. **Flags:**
+   - Right-click on a cell to place a flag if you suspect it contains a mine.
+   - Placing a flag prevents accidentally revealing a mine. -->
 
-And change the baseUrl in src/constants/index.ts to your repo name
+<!-- 6. **Custom Mine Emoji:**
+   - Enjoy a customized mine emoji for a personalized touch! -->
 
-```ts
-export const baseUrl = "your-repo-name";
-```
+Good luck and have fun!
+
+## Features
+
+- [x] Basic Minesweeper functionality
+- [ ] Responsive Web Design (RWD)
+- [ ] First step is not a mine
+- [ ] Ability to add flags
+- [ ] Custom mine emoji
+
+## Contributing
+
+Feel free to contribute to the project. Fork the repository, make your changes, and submit a pull request.
+
+## License
+
+This Minesweeper game is open-source and available under the [MIT License](https://github.com/Jim876633/minesweeper/blob/main/LICENSE).
