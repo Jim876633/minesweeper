@@ -1,4 +1,4 @@
-import { gameLevel } from "@/constants";
+import { gameLevel } from "@/constants/game";
 import { GAMELEVEL } from "@/enums";
 import { changeFieldSize, resetGame } from "@/store/minesweeper";
 import { openModal } from "@/store/modal";

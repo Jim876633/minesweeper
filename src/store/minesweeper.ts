@@ -1,4 +1,4 @@
-import { gameLevel } from "@/constants";
+import { gameLevel } from "@/constants/game";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   getCells,
