@@ -34,11 +34,13 @@ const getAroundCells = (
  * @param rows
  * @param cols
  * @param mines
+ * @param avoidSetMineCell
  * @returns mineCells
  */
 const setMineCells = (
   field: FieldSizeType,
-  mines: number
+  mines: number,
+  avoidSetMineCell: CellPositionType
 ): CellPositionType[] => {
   const { fieldRows, fieldCols } = field;
   const maxMines = fieldRows * fieldCols;
@@ -51,6 +53,8 @@ const setMineCells = (
   while (minePositions.size < mines) {
     const row = Math.floor(Math.random() * fieldRows);
     const col = Math.floor(Math.random() * fieldCols);
+    // if the cell is the first trigger cell, skip it
+    if (row === avoidSetMineCell.row && col === avoidSetMineCell.col) continue;
     minePositions.add(`${row}-${col}`);
   }
 
@@ -75,9 +79,14 @@ const getMineCells = (cells: CellType[][]): CellType[] => {
  * @param rows
  * @param cols
  * @param mines
+ * @param avoidSetMineCell
  * @returns cells
  */
-const getCells = (field: FieldSizeType, mines: number): CellType[][] => {
+const getCells = (
+  field: FieldSizeType,
+  mines: number,
+  avoidSetMineCell: CellPositionType = { row: -1, col: -1 }
+): CellType[][] => {
   const { fieldRows, fieldCols } = field;
   const cells = [] as CellType[][];
   for (let rowId = 0; rowId < fieldRows; rowId++) {
@@ -93,7 +102,7 @@ const getCells = (field: FieldSizeType, mines: number): CellType[][] => {
     }
     cells.push(row);
   }
-  const mineCells = setMineCells(field, mines);
+  const mineCells = setMineCells(field, mines, avoidSetMineCell);
   mineCells.forEach(({ row, col }) => {
     cells[row][col].isMine = true;
   });

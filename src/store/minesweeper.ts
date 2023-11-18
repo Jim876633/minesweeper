@@ -24,6 +24,7 @@ const initialState = {
   mineCount: defaultLevel.mines,
   isGameOver: false,
   isGameWin: false,
+  isFirstTriggerCell: true,
 };
 
 export type InitialStateType = typeof initialState;
@@ -39,16 +40,36 @@ export const minesweeperSlice = createSlice({
       const fieldRows = gameLevel[action.payload].rows;
       const fieldCols = gameLevel[action.payload].cols;
       const mines = gameLevel[action.payload].mines;
-      state.cells = getCells({ fieldRows, fieldCols }, mines);
       state.field = { fieldRows, fieldCols };
       state.mineCount = mines;
+      minesweeperSlice.caseReducers.resetGame(state);
     },
     triggerCell: (state, action: PayloadAction<CellPositionType>) => {
-      if (state.isGameOver) return;
+      if (state.isGameOver || state.isGameWin) return;
+      // first trigger cell
+      if (state.isFirstTriggerCell) {
+        state.isFirstTriggerCell = false;
+      }
+      // trigger cell
       triggerCellRecursively(state, action.payload);
+      // check if all cells without mines are triggered
       isAllCellTriggered(state.cells) && (state.isGameWin = true);
     },
-    triggerMineCell: (state) => {
+    triggerMineCell: (
+      state,
+      action: PayloadAction<CellPositionType | undefined>
+    ) => {
+      // first trigger cell
+      if (state.isFirstTriggerCell) {
+        state.cells = getCells(state.field, state.mineCount, action.payload);
+        minesweeperSlice.caseReducers.triggerCell(
+          state,
+          action as PayloadAction<CellPositionType>
+        );
+        state.isFirstTriggerCell = false;
+        return;
+      }
+      // trigger all mine cells
       const mineCells = getMineCells(state.cells);
       mineCells.forEach(({ rowId, colId }) => {
         state.cells[rowId][colId].isTrigger = true;
@@ -59,6 +80,7 @@ export const minesweeperSlice = createSlice({
       state.cells = getCells(state.field, state.mineCount);
       state.isGameOver = false;
       state.isGameWin = false;
+      state.isFirstTriggerCell = true;
     },
   },
 });

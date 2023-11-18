@@ -13,7 +13,7 @@ const Cell = ({ cellInfo }: PropsType) => {
     if (cellInfo.isTrigger) return;
     if (cellInfo.isMine) {
       console.log("mine");
-      dispatch(triggerMineCell());
+      dispatch(triggerMineCell({ row: cellInfo.rowId, col: cellInfo.colId }));
     } else {
       dispatch(triggerCell({ row: cellInfo.rowId, col: cellInfo.colId }));
     }
