@@ -73,7 +73,7 @@ Good luck and have fun!
 
 - [x] Basic Minesweeper functionality
 - [ ] Responsive Web Design (RWD)
-- [ ] First step is not a mine
+- [x] First step can't be a mine
 - [ ] Ability to add flags
 - [ ] Custom mine emoji
 
