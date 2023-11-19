@@ -75,7 +75,7 @@ Good luck and have fun!
 - [ ] Responsive Web Design (RWD)
 - [x] First step can't be a mine
 - [ ] Ability to add flags
-- [ ] Custom mine emoji
+- [x] Custom mine emoji
 
 ## Contributing
 
