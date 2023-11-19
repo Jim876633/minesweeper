@@ -1,4 +1,9 @@
-import { GameLevelType, gameLevel } from "@/constants/game";
+import {
+  GameLevelType,
+  MineInfoType,
+  gameLevel,
+  mineCategory,
+} from "@/constants/game";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   getCells,
@@ -21,6 +26,7 @@ const defaultField = {
 const initialState = {
   cells: getCells(defaultField, defaultLevel.mines),
   field: defaultField,
+  mineEmoji: mineCategory[0].emoji,
   mineCount: defaultLevel.mines,
   isGameOver: false,
   isGameWin: false,
@@ -43,6 +49,12 @@ export const minesweeperSlice = createSlice({
       state.field = { fieldRows, fieldCols };
       state.mineCount = mines;
       minesweeperSlice.caseReducers.resetGame(state);
+    },
+    changeMineEmoji: (state, action: PayloadAction<string>) => {
+      const selectMineEmoji = mineCategory.find(
+        (mine) => mine.name === action.payload
+      ) as MineInfoType;
+      state.mineEmoji = selectMineEmoji.emoji;
     },
     triggerCell: (state, action: PayloadAction<CellPositionType>) => {
       if (state.isGameOver || state.isGameWin) return;
@@ -85,7 +97,12 @@ export const minesweeperSlice = createSlice({
   },
 });
 
-export const { changeFieldSize, triggerCell, triggerMineCell, resetGame } =
-  minesweeperSlice.actions;
+export const {
+  changeFieldSize,
+  changeMineEmoji,
+  triggerCell,
+  triggerMineCell,
+  resetGame,
+} = minesweeperSlice.actions;
 
 export default minesweeperSlice;

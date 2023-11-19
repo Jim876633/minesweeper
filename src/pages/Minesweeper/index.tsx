@@ -1,4 +1,4 @@
-import { gameLevel } from "@/constants/game";
+import { GameLevelType } from "@/constants/game";
 import { GAMELEVEL } from "@/enums";
 import { changeFieldSize, resetGame } from "@/store/minesweeper";
 import { openModal } from "@/store/modal";
@@ -6,6 +6,7 @@ import useAppDispatch from "@/utils/hooks/useAppDispatch";
 import useAppSelector from "@/utils/hooks/useAppSelect";
 import { useEffect } from "react";
 import Cell from "./Cell";
+import MineSelector from "./MineSelector";
 import styled from "./index.module.scss";
 
 const Minesweeper = () => {
@@ -16,7 +17,7 @@ const Minesweeper = () => {
 
   const changeLevelHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const level = (e.target as HTMLElement).innerText;
-    dispatch(changeFieldSize(level as keyof typeof gameLevel));
+    dispatch(changeFieldSize(level as GameLevelType));
   };
 
   const resetHandler = () => {
@@ -49,6 +50,7 @@ const Minesweeper = () => {
         </div>
       </div>
       <div className={styled.info}>
+        <MineSelector />
         <span>mines: {mineCount}</span>
         <span>
           field: {field.fieldRows} X {field.fieldCols}
