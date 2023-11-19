@@ -1,4 +1,4 @@
-import { gameLevel } from "@/constants/game";
+import { GameLevelType, gameLevel } from "@/constants/game";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   getCells,
@@ -36,7 +36,7 @@ export const minesweeperSlice = createSlice({
   name: "minesweeper",
   initialState,
   reducers: {
-    changeFieldSize: (state, action: PayloadAction<keyof typeof gameLevel>) => {
+    changeFieldSize: (state, action: PayloadAction<GameLevelType>) => {
       const fieldRows = gameLevel[action.payload].rows;
       const fieldCols = gameLevel[action.payload].cols;
       const mines = gameLevel[action.payload].mines;

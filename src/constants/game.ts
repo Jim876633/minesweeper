@@ -18,3 +18,29 @@ export const gameLevel = {
     mines: 99,
   },
 };
+
+/**
+ * @description: mine category
+ */
+export const mineCategory: MineInfoType[] = [
+  {
+    name: "mine",
+    emoji: "💣",
+  },
+  {
+    name: "bug",
+    emoji: "🐞",
+  },
+  {
+    name: "badFace",
+    emoji: "🤬",
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/*                                    type                                    */
+/* -------------------------------------------------------------------------- */
+
+export type GameLevelType = keyof typeof gameLevel;
+
+export type MineInfoType = { name: string; emoji: string };
