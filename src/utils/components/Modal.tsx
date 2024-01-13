@@ -1,11 +1,13 @@
 import { GAMESTATE } from "@/enums";
 import { resetGame } from "@/store/minesweeper";
 import { closeModal } from "@/store/modal";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
+  IconButton,
   Slide,
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
@@ -29,9 +31,14 @@ const Modal = () => {
   const isGameWin = modalState === GAMESTATE.WIN;
 
   const closeHandler = () => {
+    dispatch(closeModal());
+  };
+
+  const resetHandler = () => {
     dispatch(resetGame());
     dispatch(closeModal());
   };
+
   return (
     <Dialog
       open={isOpen}
@@ -41,6 +48,18 @@ const Modal = () => {
       onClose={closeHandler}
       aria-describedby="alert-dialog-slide-description"
     >
+      <IconButton
+        aria-label="close"
+        onClick={closeHandler}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       {!isGameWin && (
         <DialogContent>
           <h3 className={styled.title}>You Lose</h3>
@@ -52,7 +71,7 @@ const Modal = () => {
         </DialogContent>
       )}
       <DialogActions>
-        <Button onClick={closeHandler}>Try Again</Button>
+        <Button onClick={resetHandler}>Try Again</Button>
       </DialogActions>
     </Dialog>
   );
