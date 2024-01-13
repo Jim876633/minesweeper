@@ -59,6 +59,7 @@ export const minesweeperSlice = createSlice({
       state.mineEmoji = selectMineEmoji.emoji;
     },
     triggerCell: (state, action: PayloadAction<CellPositionType>) => {
+      // if game is over or win, do nothing
       if (state.isGameOver || state.isGameWin) return;
 
       // if flag is active, toggle flag
@@ -75,40 +76,41 @@ export const minesweeperSlice = createSlice({
       if (state.isFirstTriggerCell) {
         state.isFirstTriggerCell = false;
       }
-      // trigger cell
-      triggerCellRecursively(state, action.payload);
-      // check if all cells without mines are triggered
-      isAllCellTriggered(state.cells) && (state.isGameWin = true);
-    },
-    triggerMineCell: (state, action: PayloadAction<CellPositionType>) => {
-      if (state.isGameOver || state.isGameWin) return;
-      if (state.isFlagActive) {
-        toggleCellFlag(state, action.payload);
-        return;
+
+      /* ------------------------------ trigger cell ------------------------------ */
+      if (cellInfo.isMine) {
+        console.log("is mine 💣");
+        if (state.isFirstTriggerCell) {
+          // first trigger cell
+          state.cells = getCells(state.field, state.mineCount, action.payload);
+          minesweeperSlice.caseReducers.triggerCell(
+            state,
+            action as PayloadAction<CellPositionType>
+          );
+          state.isFirstTriggerCell = false;
+          return;
+        }
+        // trigger all mine cells
+        const mineCells = getMineCells(state.cells);
+        mineCells.forEach(({ rowId, colId }) => {
+          state.cells[rowId][colId].isTrigger = true;
+        });
+        state.isGameOver = true;
+      } else {
+        triggerCellRecursively(state, action.payload);
+        // check if all cells without mines are triggered
+        isAllCellTriggered(state.cells) && (state.isGameWin = true);
       }
-      const { row, col } = action.payload;
-      if (state.cells[row][col].isFlag) return;
-      if (state.isFirstTriggerCell) {
-        state.cells = getCells(state.field, state.mineCount, action.payload);
-        minesweeperSlice.caseReducers.triggerCell(
-          state,
-          action as PayloadAction<CellPositionType>
-        );
-        state.isFirstTriggerCell = false;
-        return;
-      }
-      // trigger all mine cells
-      const mineCells = getMineCells(state.cells);
-      mineCells.forEach(({ rowId, colId }) => {
-        state.cells[rowId][colId].isTrigger = true;
-      });
-      state.isGameOver = true;
     },
     resetGame: (state) => {
       state.cells = getCells(state.field, state.mineCount);
       state.isGameOver = false;
       state.isGameWin = false;
       state.isFirstTriggerCell = true;
+      state.isFlagActive = false;
+    },
+    toggleFlag: (state) => {
+      state.isFlagActive = !state.isFlagActive;
     },
   },
 });
@@ -117,8 +119,8 @@ export const {
   changeFieldSize,
   changeMineEmoji,
   triggerCell,
-  triggerMineCell,
   resetGame,
+  toggleFlag,
 } = minesweeperSlice.actions;
 
 export default minesweeperSlice;
