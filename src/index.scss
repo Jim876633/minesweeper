@@ -11,6 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  text-transform: capitalize;
+}
+
 #root {
   margin: 0 auto;
   padding: 2rem;
