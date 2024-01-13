@@ -9,6 +9,7 @@ import {
   getCells,
   getMineCells,
   isAllCellTriggered,
+  toggleCellFlag,
   triggerCellRecursively,
 } from "./helpers/cellsHelper.ts";
 import { CellPositionType } from "./models/cell.ts";
@@ -31,6 +32,7 @@ const initialState = {
   isGameOver: false,
   isGameWin: false,
   isFirstTriggerCell: true,
+  isFlagActive: false,
 };
 
 export type InitialStateType = typeof initialState;
@@ -58,6 +60,17 @@ export const minesweeperSlice = createSlice({
     },
     triggerCell: (state, action: PayloadAction<CellPositionType>) => {
       if (state.isGameOver || state.isGameWin) return;
+
+      // if flag is active, toggle flag
+      if (state.isFlagActive) {
+        return toggleCellFlag(state, action.payload);
+      }
+
+      // if cell is flag, do nothing
+      const { row, col } = action.payload;
+      const cellInfo = state.cells[row][col];
+      if (cellInfo.isFlag) return;
+
       // first trigger cell
       if (state.isFirstTriggerCell) {
         state.isFirstTriggerCell = false;
@@ -67,11 +80,14 @@ export const minesweeperSlice = createSlice({
       // check if all cells without mines are triggered
       isAllCellTriggered(state.cells) && (state.isGameWin = true);
     },
-    triggerMineCell: (
-      state,
-      action: PayloadAction<CellPositionType | undefined>
-    ) => {
-      // first trigger cell
+    triggerMineCell: (state, action: PayloadAction<CellPositionType>) => {
+      if (state.isGameOver || state.isGameWin) return;
+      if (state.isFlagActive) {
+        toggleCellFlag(state, action.payload);
+        return;
+      }
+      const { row, col } = action.payload;
+      if (state.cells[row][col].isFlag) return;
       if (state.isFirstTriggerCell) {
         state.cells = getCells(state.field, state.mineCount, action.payload);
         minesweeperSlice.caseReducers.triggerCell(

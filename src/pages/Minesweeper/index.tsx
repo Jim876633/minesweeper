@@ -1,6 +1,6 @@
 import { GameLevelType } from "@/constants/game";
 import { GAMELEVEL, GAMESTATE } from "@/enums";
-import { changeFieldSize, resetGame } from "@/store/minesweeper";
+import { changeFieldSize, resetGame, toggleFlag } from "@/store/minesweeper";
 import { openModal } from "@/store/modal";
 import useAppDispatch from "@/utils/hooks/useAppDispatch";
 import useAppSelector from "@/utils/hooks/useAppSelect";
@@ -10,14 +10,17 @@ import MineSelector from "./MineSelector";
 import styled from "./index.module.scss";
 
 const Minesweeper = () => {
-  const { cells, mineCount, field, isGameOver, isGameWin } = useAppSelector(
-    (state) => state.minesweeper
-  );
+  const { cells, mineCount, field, isGameOver, isGameWin, isFlagActive } =
+    useAppSelector((state) => state.minesweeper);
   const dispatch = useAppDispatch();
 
   const changeLevelHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const level = (e.target as HTMLElement).innerText;
     dispatch(changeFieldSize(level as GameLevelType));
+  };
+
+  const flagToggleHandler = () => {
+    dispatch(toggleFlag());
   };
 
   const resetHandler = () => {
@@ -51,6 +54,13 @@ const Minesweeper = () => {
       </div>
       <div className={styled.info}>
         <MineSelector />
+        <button
+          type="button"
+          className={`${styled.flagBtn} ${isFlagActive ? styled.active : ""}`}
+          onClick={flagToggleHandler}
+        >
+          🚩
+        </button>
         <span>mines: {mineCount}</span>
         <span>
           field: {field.fieldRows} X {field.fieldCols}

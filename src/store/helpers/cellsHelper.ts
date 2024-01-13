@@ -98,6 +98,7 @@ const getCells = (
         colId,
         isTrigger: false,
         aroundMinesCount: 0,
+        isFlag: false,
       });
     }
     cells.push(row);
@@ -119,7 +120,7 @@ const getCells = (
 const triggerCellRecursively = (
   state: InitialStateType,
   cell: CellPositionType
-) => {
+): void => {
   // trigger cell
   const { row, col } = cell;
   state.cells[row][col].isTrigger = true;
@@ -146,11 +147,20 @@ const isAllCellTriggered = (cells: CellType[][]): boolean => {
   return cells.flat().every((cell) => cell.isMine || cell.isTrigger);
 };
 
+const toggleCellFlag = (
+  state: InitialStateType,
+  cell: CellPositionType
+): void => {
+  const { row, col } = cell;
+  state.cells[row][col].isFlag = !state.cells[row][col].isFlag;
+};
+
 export {
-  getCells,
-  setMineCells,
   getAroundCells,
-  triggerCellRecursively,
+  getCells,
   getMineCells,
   isAllCellTriggered,
+  setMineCells,
+  toggleCellFlag,
+  triggerCellRecursively,
 };

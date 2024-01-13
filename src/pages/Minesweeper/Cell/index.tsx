@@ -29,6 +29,7 @@ const Cell = ({ cellInfo }: PropsType) => {
     >
       {cellInfo.isMine && cellInfo.isTrigger && mineEmoji}
       {cellInfo.aroundMinesCount > 0 && cellInfo.aroundMinesCount}
+      {cellInfo.isFlag && "🚩"}
     </div>
   );
 };

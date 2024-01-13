@@ -7,6 +7,7 @@ export type CellType = {
   colId: number;
   isTrigger: boolean;
   aroundMinesCount: number;
+  isFlag: boolean;
 };
 
 /**

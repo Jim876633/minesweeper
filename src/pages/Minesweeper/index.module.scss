@@ -34,6 +34,14 @@
     }
   }
 
+  .flagBtn {
+    background-color: #ffffff;
+
+    &.active {
+      background-color: #f5d76e;
+    }
+  }
+
   .info {
     align-self: flex-end;
     display: flex;
