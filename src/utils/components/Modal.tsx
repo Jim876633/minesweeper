@@ -1,3 +1,5 @@
+import { GAMESTATE } from "@/enums";
+import { resetGame } from "@/store/minesweeper";
 import { closeModal } from "@/store/modal";
 import {
   Button,
@@ -11,7 +13,6 @@ import React from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelect";
 import styled from "./Modal.module.scss";
-import { resetGame } from "@/store/minesweeper";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -22,12 +23,11 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const Modal = () => {
-  const { isGameOver, isGameWin } = useAppSelector(
-    (state) => state.minesweeper
-  );
-  const { isOpen } = useAppSelector((state) => state.modal);
-
+  const { isOpen, modalState } = useAppSelector((state) => state.modal);
   const dispatch = useAppDispatch();
+
+  const isGameWin = modalState === GAMESTATE.WIN;
+
   const closeHandler = () => {
     dispatch(resetGame());
     dispatch(closeModal());
@@ -41,7 +41,7 @@ const Modal = () => {
       onClose={closeHandler}
       aria-describedby="alert-dialog-slide-description"
     >
-      {isGameOver && (
+      {!isGameWin && (
         <DialogContent>
           <h3 className={styled.title}>You Lose</h3>
         </DialogContent>

@@ -1,5 +1,5 @@
 import { GameLevelType } from "@/constants/game";
-import { GAMELEVEL } from "@/enums";
+import { GAMELEVEL, GAMESTATE } from "@/enums";
 import { changeFieldSize, resetGame } from "@/store/minesweeper";
 import { openModal } from "@/store/modal";
 import useAppDispatch from "@/utils/hooks/useAppDispatch";
@@ -27,7 +27,7 @@ const Minesweeper = () => {
 
   useEffect(() => {
     if (isGameOver || isGameWin) {
-      dispatch(openModal());
+      dispatch(openModal(isGameWin ? GAMESTATE.WIN : GAMESTATE.LOSE));
     }
   }, [isGameOver, isGameWin, dispatch]);
 
