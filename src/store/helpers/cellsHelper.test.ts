@@ -45,6 +45,7 @@ describe("getCells", () => {
           colId: expect.any(Number),
           isTrigger: expect.any(Boolean),
           aroundMinesCount: expect.any(Number),
+          isFlag: expect.any(Boolean),
         });
       });
     });

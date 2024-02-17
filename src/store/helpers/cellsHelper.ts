@@ -125,6 +125,11 @@ const triggerCellRecursively = (
   const { row, col } = cell;
   state.cells[row][col].isTrigger = true;
 
+  // remove flag if the cell is flagged
+  if (state.cells[row][col].isFlag) {
+    state.cells[row][col].isFlag = false;
+  }
+
   // calculate around mines count
   const aroundCells = getAroundCells(state.field, cell);
   const aroundMinesCount = aroundCells.filter(
